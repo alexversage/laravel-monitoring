@@ -19,7 +19,7 @@ config.vm.network "public_network",
 
   config.vm.define "ans" do |ans|
     ans.vm.box = "ubuntu/jammy64"
-  config.vm.provision :shell, :inline  => "
+  ans.vm.provision :shell, :inline  => "
         sudo apt-get -y update;
         sudo apt install -y software-properties-common;
         sudo apt-add-repository --yes --update ppa:ansible/ansible;
