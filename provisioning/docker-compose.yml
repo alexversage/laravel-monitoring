@@ -1,0 +1,8 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: run Docker-compose
+    community.docker.docker_compose:
+     project_src: /vagrant
+     state: absent

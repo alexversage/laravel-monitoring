@@ -12,6 +12,9 @@ Vagrant.configure("2") do |config|
     app.vm.synced_folder ".", "/vagrant"
     app.vm.provision "ansible" do |ansible|
     ansible.playbook = "provisioning/docker.yml"
+    app.vm.provision "ansible" do |ansible|
+    ansible.playbook = "provisioning/docker-compose.yml"
+  end
   end
   end
 
