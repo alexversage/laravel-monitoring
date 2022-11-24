@@ -9,6 +9,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "app" do |app|
     app.vm.box = "ubuntu/jammy64"
     app.vm.hostname = "app"
+    app.vm.synced_folder ".", "/vagrant"
     app.vm.provision "ansible" do |ansible|
     ansible.playbook = "provisioning/docker.yml"
   end
