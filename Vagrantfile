@@ -4,29 +4,22 @@
 Vagrant.configure("2") do |config|
  config.vm.box = "ubuntu/jammy64"
  config.vm.network "public_network", bridge: "wlp3s0"
-# use_dhcp_assigned_default_route: true
+ config.vm.box_check_update = false
 
   config.vm.define "app" do |app|
     app.vm.box = "ubuntu/jammy64"
     app.vm.hostname = "app"
+    app.vm.provision "ansible" do |ansible|
+    ansible.playbook = "provisioning/docker.yml"
+  end
   end
 
-  config.vm.define "monitoring" do |monitoring|
-    monitoring.vm.box = "ubuntu/jammy64"
-    monitoring.vm.hostname = "monitoring"
+  config.vm.define "mon" do |mon|
+    mon.vm.box = "ubuntu/jammy64"
+    mon.vm.hostname = "monitoring"
+    mon.vm.provision "ansible" do |ansible|
+    ansible.playbook = "provisioning/grafana.yml"
   end
+ end
 
-  config.vm.define "ans" do |ans|
-  ans.vm.box = "ubuntu/jammy64"
-  ans.vm.hostname = "ans"
-  ans.vm.provision :shell, :inline  => "
-        sudo apt-get -y update;
-        sudo apt install -y software-properties-common;
-        sudo apt-add-repository --yes --update ppa:ansible/ansible;
-        sudo apt install -y ansible;
-        touch /etc/ansible/playbook.yml     "
-  ans.vm.provision :ansible_local do |ansible|
-    ansible.playbook = "/etc/ansible/playbook.yml"
-  end
-end
 end
